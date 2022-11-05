@@ -1,5 +1,5 @@
 <script setup>
-// import { RouterLink, RouterView } from 'vue-router'
+import { RouterView } from 'vue-router'
 import Menu from "@/components/Menu/Menu.vue";
 import Header from '@/components/Header/Header.vue';
 </script>
@@ -26,6 +26,6 @@ import Header from '@/components/Header/Header.vue';
 #app {
   height: 100vh;
   width: 100vw;
-  overflow: hidden;
+  // overflow: hidden;
 }
 </style>
