@@ -22,10 +22,14 @@ import Header from '@/components/Header/Header.vue';
   </div>
 </template>
 
-<style lang="less" scoped>
+<style lang="less">
 #app {
   height: 100vh;
   width: 100vw;
-  // overflow: hidden;
+  overflow: hidden;
+}
+
+.el-main {
+  overflow: auto;
 }
 </style>
