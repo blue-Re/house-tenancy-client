@@ -39,6 +39,11 @@ const userStore = useUserStore()
 }
 
 .el-main {
-  overflow: auto;
+  // height: 100%;
+  // overflow: scroll;
+}
+
+.el-pagination{
+  justify-content: center;
 }
 </style>
