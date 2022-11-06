@@ -1,12 +1,21 @@
 <script setup>
-import { RouterView } from 'vue-router'
+import { RouterView, useRoute } from 'vue-router'
+
+import { useUserStore } from '@/stores/user'
+
 import Menu from "@/components/Menu/Menu.vue";
 import Header from '@/components/Header/Header.vue';
+import Login from '@/views/Login/Login.vue'
+
+const route = useRoute();
+
+const userStore = useUserStore()
 </script>
 
 <template>
   <div class="common-layout">
-    <el-container>
+    <Login v-if="route.path === '/login'"/>
+    <el-container v-else>
       <el-header>
         <Header />
       </el-header>

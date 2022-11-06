@@ -3,17 +3,14 @@
     <div class="top-wrapper">
       <div class="left">
         <div class="title">房屋租赁系统</div>
-        <div class="bg">
-          <!-- <img class="bg-image" src="@/assets/image/bg.webp" alt="" /> -->
-        </div>
+        <div class="bg"></div>
       </div>
       <el-dropdown trigger="click">
         <span class="el-dropdown-link">
           <div class="right">
-            <el-avatar :size="40" :src="circleUrl" />
-            <div class="user">老王</div>
+            <el-avatar :size="40" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png" />
+            <div class="user">{{ user.username }}</div>
           </div>
-          <!-- <el-icon class="el-icon--right"><caret-bottom /></el-icon> -->
         </span>
         <template #dropdown>
           <el-dropdown-menu>
@@ -28,11 +25,19 @@
 </template>
 
 <script setup>
-const circleUrl = "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png";
+import { storeToRefs } from 'pinia'
+import { useUserStore } from '@/stores/user'
+import { useRouter } from 'vue-router';
+
+const router = useRouter()
+const userStore = useUserStore()
+
+const { user } = storeToRefs(userStore);
 
 const logout = () => {
-  console.log('退出登录');
-}
+  userStore.resetUser()
+  router.replace('/login')
+};
 </script>
 
 <style lang="less">
@@ -79,6 +84,7 @@ const logout = () => {
         // margin-top: 15px;
       }
       .user {
+        padding-left: 10px;
         color: white;
       }
     }

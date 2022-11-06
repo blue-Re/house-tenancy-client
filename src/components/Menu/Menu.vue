@@ -1,7 +1,7 @@
 <template>
   <el-menu
     :router="true"
-    default-active="/"
+    default-active="/home"
     class="el-menu-vertical-demo"
     text-color="#fff"
     active-text-color="#ffd04b"
@@ -30,17 +30,22 @@
 
 <script setup>
 import { ElMessage } from "element-plus";
-import { onMounted, reactive, ref } from "vue";
+import { onMounted, ref } from "vue";
+
+import { useUserStore } from '@/stores/user'
 import { useRouter } from "vue-router";
 
 import { menuIcon } from "./config";
 import { getMenuList } from "@/service/common.js";
 
 const router = useRouter();
+const userStore = useUserStore()
+
+const type = userStore.getCurrentUserType
 
 let menu = ref([]);
 onMounted(async () => {
-  const { code, menuList, error } = await getMenuList();
+  const { code, menuList, error } = await getMenuList(type);
   if (code === 0) {
     menu.value = menuList;
     return;
@@ -49,8 +54,8 @@ onMounted(async () => {
 });
 
 const goToHome = (item) => {
-  if (item.path === "/") {
-    router.push("/");
+  if (item.path === "/home") {
+    router.push("/home");
   }
 };
 </script>
