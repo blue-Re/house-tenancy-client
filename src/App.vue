@@ -5,6 +5,7 @@ import { useUserStore } from '@/stores/user'
 
 import Menu from "@/components/Menu/Menu.vue";
 import Header from '@/components/Header/Header.vue';
+import BreadCrumb from '@/components/BreadCrumb/BreadCrumb.vue'
 import Login from '@/views/Login/Login.vue'
 
 const route = useRoute();
@@ -24,6 +25,8 @@ const userStore = useUserStore()
           <Menu />
         </el-aside>
         <el-main>
+          <!-- <h1>toubu</h1> -->
+          <BreadCrumb />
           <RouterView />
         </el-main>
       </el-container>
@@ -36,11 +39,6 @@ const userStore = useUserStore()
   height: 100vh;
   width: 100vw;
   overflow: hidden;
-}
-
-.el-main {
-  // height: 100%;
-  // overflow: scroll;
 }
 
 .el-pagination{

@@ -111,7 +111,7 @@ onMounted(() => {
 
 <style lang="less" scoped>
 .el-table {
-  height: calc(100vh - 180px) !important;
+  height: calc(100vh - 230px) !important;
   overflow: auto;
 
   .description {

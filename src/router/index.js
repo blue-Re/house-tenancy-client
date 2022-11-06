@@ -27,16 +27,25 @@ const router = createRouter({
         {
           path: '/user-management/owner-list',
           name: 'OwnerList',
+          meta: {
+            name: '房东列表'
+          },
           component: () => import('@/views/User/OwnerList.vue')
         },
         {
           path: '/user-management/tenant-list',
           name: 'TenantList',
+          meta: {
+            name: '租户列表',
+          },
           component: () => import('@/views/User/TenantList.vue')
         },
         {
           path: '/user-management/manager-list',
           name: 'ManagerList',
+          meta: {
+            name: '管理员列表',
+          },
           component: () => import('@/views/User/ManagerList.vue')
         },
       ]
@@ -50,6 +59,9 @@ const router = createRouter({
         {
           path: '/house-management/house-list',
           name: 'HouseList',
+          meta: {
+            name: '房屋列表'
+          },
           component: () => import('@/views/House/House.vue')
         },
       ]
@@ -63,6 +75,9 @@ const router = createRouter({
         {
           path: '/news-management/news-list',
           name: 'NewsList',
+          meta: {
+            name: '新闻列表'
+          },
           component: () => import('@/views/News/News.vue')
         },
       ]
@@ -76,6 +91,9 @@ const router = createRouter({
         {
           path: '/trouble-management/trouble-list',
           name: 'TroubleList',
+          meta: {
+            name: '故障列表',
+          },
           component: () => import('@/views/Trouble/Trouble.vue')
         },
       ]
@@ -88,7 +106,10 @@ const router = createRouter({
       children: [
         {
           path: '/order-management/order-list',
-          name: 'TroubleManagement',
+          name: 'OrderList',
+          meta: {
+            name: '订单列表',
+          },
           component: () => import('@/views/Order/Order.vue')
         },
       ]
