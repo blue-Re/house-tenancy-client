@@ -1,7 +1,7 @@
 <template>
   <el-menu
     :router="true"
-    default-active="/home"
+    :default-active="route.path"
     class="el-menu-vertical-demo"
     text-color="#fff"
     active-text-color="#ffd04b"
@@ -46,7 +46,6 @@ const type = userStore.getCurrentUserType
 
 let menu = ref([]);
 onMounted(async () => {
-  console.log(route);
   const { code, menuList, msg } = await getMenuList(type);
   if (code === 0) {
     menu.value = menuList;
