@@ -122,7 +122,7 @@ const registerForm = async (formEl) => {
 }
 
 .el-input {
-  width: 240px;
+  width: 236px;
 }
 
 .el-button{

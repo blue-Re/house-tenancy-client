@@ -33,24 +33,26 @@ import { ElMessage } from "element-plus";
 import { onMounted, ref } from "vue";
 
 import { useUserStore } from '@/stores/user'
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 
 import { menuIcon } from "./config";
 import { getMenuList } from "@/service/common.js";
 
 const router = useRouter();
+const route = useRoute();
 const userStore = useUserStore()
 
 const type = userStore.getCurrentUserType
 
 let menu = ref([]);
 onMounted(async () => {
-  const { code, menuList, error } = await getMenuList(type);
+  console.log(route);
+  const { code, menuList, msg } = await getMenuList(type);
   if (code === 0) {
     menu.value = menuList;
     return;
   }
-  ElMessage.error(error);
+  ElMessage.error(msg);
 });
 
 const goToHome = (item) => {
