@@ -20,9 +20,9 @@
         </el-form-item>
         <el-form-item label="用户类型" prop="type">
           <el-select v-model="ruleForm.type" placeholder="请选择用户类型">
-            <el-option label="房东" :value="0" />
-            <el-option label="租户" :value="1" />
-            <el-option label="管理员" :value="2" />
+            <el-option label="房东" :value="1" />
+            <el-option label="租户" :value="2" />
+            <el-option label="管理员" :value="3" />
           </el-select>
         </el-form-item>
         <el-form-item>

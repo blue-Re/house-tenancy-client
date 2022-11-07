@@ -5,6 +5,7 @@ import { onMounted, reactive, ref, toRefs } from "vue";
 
 import { getHouseList } from "@/service/house";
 
+const ruleFormRef = ref()
 const formInline = reactive({
   id: "",
   title: "",
@@ -14,6 +15,12 @@ const onSubmit = () => {
   paginationConfig.page = 1;
   $_getHouseList(paginationConfig)
 };
+const resetForm =(formEl) => {
+  // console.log(formEl);
+  if (!formEl) return
+  formEl.resetFields()
+};
+
 
 const handleClick = () => {
   console.log("click");
@@ -52,16 +59,16 @@ onMounted(() => {
 
 <template>
   <div class="house">
-    <el-form :inline="true" :model="formInline" class="demo-form-inline">
-      <el-form-item label="房屋ID">
+    <el-form :inline="true" :model="formInline" class="demo-form-inline" ref="ruleFormRef">
+      <el-form-item label="房屋ID" prop="id">
         <el-input v-model.number="formInline.id" placeholder="请输入房屋ID" />
       </el-form-item>
-      <el-form-item label="房屋标题">
+      <el-form-item label="房屋标题" prop="title">
         <el-input v-model="formInline.title" placeholder="请输入房屋标题" />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="onSubmit">查 询</el-button>
-        <el-button @click="onSubmit">重 置</el-button>
+        <el-button @click="resetForm(ruleFormRef)">重 置</el-button>
       </el-form-item>
     </el-form>
 
