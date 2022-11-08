@@ -39,5 +39,12 @@ watch(
   border-radius: 30px;
   border-left-width: 10px;
   border-left-color: #545c64;
+
+  .el-breadcrumb__item{
+
+    &:nth-child(1) {
+      padding-left: 10px;
+    }
+  }
 }
 </style>
