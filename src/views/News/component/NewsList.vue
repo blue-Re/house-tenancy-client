@@ -25,20 +25,53 @@
     </el-form>
 
     <el-form-item>
-      <el-button type="primary" @click="openDiaLog('create')">新 建 新 闻</el-button>
+      <el-button
+        type="primary"
+        @click="goToPath('/news-management/news-detail', 'create')"
+        >新 建 新 闻</el-button
+      >
     </el-form-item>
 
     <el-table :data="tableData" border>
-      <el-table-column prop="id" label="新闻ID" />
-      <el-table-column prop="title" label="新闻标题" />
-      <el-table-column prop="content" label="新闻内容" />
-      <el-table-column prop="author" label="新闻作者" />
-      <el-table-column prop="createdAt" label="创建时间" />
-      <el-table-column prop="updatedAt" label="更新时间" />
-      <el-table-column fixed="right" label="操作">
-        <template #default>
-          <el-button link type="primary" size="small">查 询</el-button>
-          <el-button link type="primary" size="small">重 置</el-button>
+      <el-table-column prop="id" label="新闻ID" width="80" />
+      <el-table-column prop="title" label="新闻标题" width="100" />
+      <el-table-column prop="content" label="新闻内容" width="300" />
+      <el-table-column prop="author" label="新闻作者" width="100" />
+      <el-table-column prop="online" label="当前状态" width="100">
+        <template #default="scope">
+          <el-tag class="mx-1" type="" v-if="scope.row.online === newsStatus.online">已上线</el-tag>
+          <el-tag class="mx-1" type="info" v-else>已下线</el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column prop="createdAt" label="创建时间" width="200">
+        <template #default="scope">
+          <span>{{ formatFullDate(scope.row.createdAt) }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="updatedAt" label="更新时间" width="200">
+        <template #default="scope">
+          <span>{{ formatFullDate(scope.row.updatedAt) }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column fixed="right" label="操作" width="200">
+        <template #default="scope">
+          <el-button
+            :disabled="scope.row.online === newsStatus.offline"
+            type="primary"
+            size="small"
+            @click="goToPath('/news-management/news-detail', 'update', scope.row.id)"
+            >更 新</el-button
+          >
+          <el-popconfirm title="确定要下线这条新闻吗？" @confirm="$_offLine(scope.row)">
+            <template #reference>
+              <el-button
+                :disabled="scope.row.online === newsStatus.offline"
+                type="primary"
+                size="small"
+                >下 线</el-button
+              >
+            </template>
+          </el-popconfirm>
         </template>
       </el-table-column>
     </el-table>
@@ -54,43 +87,6 @@
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
     />
-
-    <el-dialog
-      v-model="isShowDetailForm"
-      title="Warning"
-      width="30%"
-      center
-      @close="detailFormClose"
-    >
-      <el-form
-        ref="detailFormRef"
-        :model="detailForm"
-        :rules="detailRules"
-        label-width="120px"
-        class="demo-ruleForm"
-        status-icon
-      >
-        <el-form-item label="新闻发布者" prop="author">
-          <el-input v-model="detailForm.author" />
-        </el-form-item>
-        <el-form-item label="新闻标题" prop="title">
-          <el-input v-model="detailForm.title" placeholder="请输入新闻标题"> </el-input>
-        </el-form-item>
-        <el-form-item label="新闻内容" prop="content">
-          <el-input
-            v-model="detailForm.content"
-            :autosize="{ minRows: 2, maxRows: 4 }"
-            type="textarea"
-          />
-        </el-form-item>
-      </el-form>
-      <template #footer>
-        <span class="dialog-footer">
-          <el-button @click="detailFormClose">取 消</el-button>
-          <el-button type="primary" @click="handleConfirm(detailFormRef, 'create')">确 定</el-button>
-        </span>
-      </template>
-    </el-dialog>
   </div>
 </template>
 
@@ -98,10 +94,13 @@
 import { ElMessage } from "element-plus";
 
 import { onMounted, reactive, ref, toRefs } from "vue";
+import { useRouter } from "vue-router";
 
-import { getNewsList, createNews } from "@/service/news";
-import { typeEnum } from "@/config/enum";
+import { getNewsList, updateNews } from "@/service/news";
+import { formatFullDate } from "@/utils/format-date";
+import { typeEnum, newsStatus } from "@/config/enum";
 
+const router = useRouter();
 
 const ruleFormRef = ref();
 const formInline = reactive({
@@ -150,69 +149,28 @@ onMounted(() => {
   $_getNewsList();
 });
 
-// 有关子组件相关的操作
-let isShowDetailForm = ref(false);
-const openDiaLog = (mode) => {
-  isShowDetailForm.value = true;
-};
-
-const handleOffDiaLog = (payload) => {
-  isShowDetailForm.value = payload;
-};
-
-const detailFormClose = () => {
-  isShowDetailForm.value = false;
-}
-
-const detailFormRef = ref();
-const detailForm = reactive({
-  id: "",
-  title: "",
-  author: "",
-  content: "",
-});
-const detailRules = reactive({
-  title: [{ required: true, message: "请输入新闻标题", trigger: "blur" }],
-  author: [{ required: true, message: "请输入新闻作者", trigger: "blur" }],
-  content: [{ required: true, message: "请输入新闻内容", trigger: "blur" }],
-});
-
-const handleConfirm = async (formEl, type) => {
-  console.log(formEl, type);
-
-  if (!formEl) return;
-  await formEl.validate(async (valid, fields) => {
-    if (valid) {
-      // console.log("submit!");
-      switch (type) {
-        case 'create':
-          $_createNews()
-          return;
-        default:
-
-          break;
-      }
-    } else {
-      console.log("error submit!", fields);
-    }
+const goToPath = (path, mode, id) => {
+  const query = { mode, id };
+  router.push({
+    path,
+    query,
   });
 };
 
-const $_createNews = async() => {
-  const { code } = await createNews(detailForm)
+const $_offLine = async ({ id, online }) => {
+  const { code, msg } = await updateNews({ id, online });
   if (code !== 0) {
-    ElMessage.error(error)
-    return
+    ElMessage.error(msg);
+    return;
   }
-  ElMessage.success('创建新闻成功！')
-  isShowDetailForm.value = false;
-  $_getNewsList()
-}
+  ElMessage.success(msg);
+  $_getNewsList();
+};
 </script>
 
 <style lang="less" scoped>
 .el-table {
-  height: calc(100vh - 230px) !important;
+  height: calc(100vh - 330px);
   overflow: auto;
 
   .description {

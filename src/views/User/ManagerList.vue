@@ -1,6 +1,11 @@
 <template>
   <div class="manager-list">
-    <el-form :inline="true" :model="formInline" class="demo-form-inline" ref="ruleFormRef">
+    <el-form
+      :inline="true"
+      :model="formInline"
+      class="demo-form-inline"
+      ref="ruleFormRef"
+    >
       <el-form-item label="管理员ID" prop="id">
         <el-input v-model.number="formInline.id" placeholder="请输入管理员ID" />
       </el-form-item>
@@ -14,15 +19,21 @@
     </el-form>
 
     <el-table :data="tableData" border>
-      <el-table-column prop="id" label="用户ID"  />
+      <el-table-column prop="id" label="用户ID" />
       <el-table-column prop="username" label="管理员姓名" />
-      <el-table-column prop="createdAt" label="创建时间"  />
-      <el-table-column prop="updatedAt" label="更新时间" />
+      <el-table-column prop="createdAt" label="创建时间" width="300">
+        <template #default="scope">
+          <span>{{ formatFullDate(scope.row.createdAt) }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="updatedAt" label="更新时间" width="300">
+        <template #default="scope">
+          <span>{{ formatFullDate(scope.row.updatedAt) }}</span>
+        </template>
+      </el-table-column>
       <el-table-column fixed="right" label="操作">
         <template #default>
-          <el-button link type="primary" size="small" 
-            >查 询</el-button
-          >
+          <el-button link type="primary" size="small">查 询</el-button>
           <el-button link type="primary" size="small">重 置</el-button>
         </template>
       </el-table-column>
@@ -48,10 +59,10 @@ import { ElMessage } from "element-plus";
 import { onMounted, reactive, ref, toRefs } from "vue";
 
 import { getUserList } from "@/service/user";
-import { typeEnum } from '@/config/enum'
+import { formatFullDate } from "@/utils/format-date";
+import { typeEnum } from "@/config/enum";
 
-
-const ruleFormRef = ref()
+const ruleFormRef = ref();
 const formInline = reactive({
   id: "",
   username: "",
@@ -62,9 +73,9 @@ const onSubmit = () => {
   $_getUserList(paginationConfig);
 };
 
-const resetForm =(formEl) => {
-  if (!formEl) return
-  formEl.resetFields()
+const resetForm = (formEl) => {
+  if (!formEl) return;
+  formEl.resetFields();
 };
 
 const tableData = ref([]);

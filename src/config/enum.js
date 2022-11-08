@@ -3,4 +3,9 @@ export const typeEnum = {
   tenant: 2,
   manager: 3,
 };
+
+export const newsStatus = {
+  online: 1,
+  offline: 2,
+};
 export default {};

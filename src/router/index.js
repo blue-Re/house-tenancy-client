@@ -80,6 +80,14 @@ const router = createRouter({
           },
           component: () => import('@/views/News/component/NewsList.vue')
         },
+        {
+          path: '/news-management/news-detail',
+          name: 'NewsDetail',
+          meta: {
+            name: '新闻详情',
+          },
+          component: () => import('@/views/News/component/NewsDetail.vue')
+        },
       ]
     },
     {

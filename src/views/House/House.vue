@@ -4,6 +4,7 @@ import { ElMessage } from "element-plus";
 import { onMounted, reactive, ref, toRefs } from "vue";
 
 import { getHouseList } from "@/service/house";
+import { formatFullDate } from '@/utils/format-date'
 
 const ruleFormRef = ref()
 const formInline = reactive({
@@ -90,8 +91,16 @@ onMounted(() => {
       <el-table-column prop="tags" label="特点" width="120" />
       <el-table-column prop="lineNum" label="地铁线" width="120" />
       <el-table-column prop="size" label="房屋面积" width="120" />
-      <el-table-column prop="createdAt" label="房源创建时间" width="120" />
-      <el-table-column prop="updatedAt" label="房源更新时间" width="120" />
+      <el-table-column prop="createdAt" label="创建时间" width="300">
+        <template #default="scope">
+          <span>{{ formatFullDate(scope.row.createdAt) }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="updatedAt" label="更新时间" width="300">
+        <template #default="scope">
+          <span>{{ formatFullDate(scope.row.updatedAt) }}</span>
+        </template>
+      </el-table-column>
       <el-table-column fixed="right" label="操作" width="120">
         <template #default>
           <el-button link type="primary" size="small" @click="handleClick"

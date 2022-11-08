@@ -21,8 +21,16 @@
     <el-table :data="tableData" border>
       <el-table-column prop="id" label="租户ID" />
       <el-table-column prop="username" label="租户姓名" />
-      <el-table-column prop="createdAt" label="创建时间" />
-      <el-table-column prop="updatedAt" label="更新时间" />
+      <el-table-column prop="createdAt" label="创建时间" width="300">
+        <template #default="scope">
+          <span>{{ formatFullDate(scope.row.createdAt) }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="updatedAt" label="更新时间" width="300">
+        <template #default="scope">
+          <span>{{ formatFullDate(scope.row.updatedAt) }}</span>
+        </template>
+      </el-table-column>
       <el-table-column fixed="right" label="操作">
         <template #default>
           <el-button link type="primary" size="small">查 询</el-button>
@@ -51,6 +59,7 @@ import { ElMessage } from "element-plus";
 import { onMounted, reactive, ref, toRefs } from "vue";
 
 import { getUserList } from "@/service/user";
+import { formatFullDate } from '@/utils/format-date'
 import { typeEnum } from "@/config/enum";
 
 const ruleFormRef = ref();
