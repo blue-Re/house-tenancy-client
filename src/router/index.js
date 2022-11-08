@@ -76,9 +76,9 @@ const router = createRouter({
           path: '/news-management/news-list',
           name: 'NewsList',
           meta: {
-            name: '新闻列表'
+            name: '新闻列表',
           },
-          component: () => import('@/views/News/News.vue')
+          component: () => import('@/views/News/component/NewsList.vue')
         },
       ]
     },

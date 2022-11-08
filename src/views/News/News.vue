@@ -1,5 +1,11 @@
 <template>
   <div class="news">
-    新闻
+    <RouterView />
   </div>
 </template>
+
+<script setup>
+import { RouterView } from "vue-router";
+
+</script>
+
