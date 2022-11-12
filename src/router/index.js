@@ -102,7 +102,15 @@ const router = createRouter({
           meta: {
             name: '故障列表',
           },
-          component: () => import('@/views/Trouble/Trouble.vue')
+          component: () => import('@/views/Trouble/components/TroubleList.vue')
+        },
+        {
+          path: '/trouble-management/trouble-detail',
+          name: 'TroubleDetail',
+          meta: {
+            name: '故障详情',
+          },
+          component: () => import('@/views/Trouble/components/TroubleDetail.vue')
         },
       ]
     },

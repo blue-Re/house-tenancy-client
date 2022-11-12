@@ -8,4 +8,9 @@ export const newsStatus = {
   online: 1,
   offline: 2,
 };
+
+export const troubleStatus = {
+  notFixed: 1,
+  isFixed: 2,
+};
 export default {};
