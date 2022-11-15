@@ -2,13 +2,19 @@
   <div class="header">
     <div class="top-wrapper">
       <div class="left">
-        <div class="title">房屋租赁系统</div>
+        <div class="title">
+          <el-icon :size="30"><HomeFilled /></el-icon>
+          <span> 房屋租赁系统 </span>
+        </div>
         <div class="bg"></div>
       </div>
       <el-dropdown trigger="click">
         <span class="el-dropdown-link">
           <div class="right">
-            <el-avatar :size="40" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png" />
+            <el-avatar
+              :size="40"
+              src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"
+            />
             <div class="user">{{ user.username }}</div>
           </div>
         </span>
@@ -25,18 +31,20 @@
 </template>
 
 <script setup>
-import { storeToRefs } from 'pinia'
-import { useUserStore } from '@/stores/user'
-import { useRouter } from 'vue-router';
+import { storeToRefs } from "pinia";
+import { useRouter } from "vue-router";
 
-const router = useRouter()
-const userStore = useUserStore()
+import { useUserStore } from "@/stores/user";
+import { HomeFilled } from "@element-plus/icons-vue";
+
+const router = useRouter();
+const userStore = useUserStore();
 
 const { user } = storeToRefs(userStore);
 
 const logout = () => {
-  userStore.resetUser()
-  router.replace('/login')
+  userStore.resetUser();
+  router.replace("/login");
 };
 </script>
 
@@ -62,6 +70,10 @@ const logout = () => {
       .title {
         color: white;
         font-size: 20px;
+
+        .el-icon {
+          vertical-align: -5px;
+        }
       }
       .bg {
         .bg-image {
@@ -75,13 +87,10 @@ const logout = () => {
       display: flex;
       justify-content: center;
       align-items: center;
-      // line-height: -80px;
       .right {
         display: flex;
         justify-content: center;
         align-items: center;
-        // line-height: 20px;
-        // margin-top: 15px;
       }
       .user {
         padding-left: 10px;
