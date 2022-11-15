@@ -126,7 +126,15 @@ const router = createRouter({
           meta: {
             name: '订单列表',
           },
-          component: () => import('@/views/Order/Order.vue')
+          component: () => import('@/views/Order/components/OrderList.vue')
+        },
+        {
+          path: '/order-management/order-detail',
+          name: 'OrderDetail',
+          meta: {
+            name: '订单详情',
+          },
+          component: () => import('@/views/Order/components/OrderDetail.vue')
         },
       ]
     },

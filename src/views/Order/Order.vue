@@ -1,5 +1,9 @@
 <template>
   <div class="order">
-    订单
+    <RouterView />
   </div>
 </template>
+
+<script setup>
+import { RouterView } from "vue-router";
+</script>
