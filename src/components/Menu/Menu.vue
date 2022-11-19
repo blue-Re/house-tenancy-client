@@ -8,23 +8,24 @@
     background-color="#545c64"
     unique-opened
   >
-    <el-sub-menu
-      @click="goToHome(item)"
-      v-for="(item, index) in menu"
-      :index="item.path"
-      :key="item.key"
-    >
-      <template #title>
-        <el-icon>
-          <component :is="menuIcon[index]" />
-        </el-icon>
-        <span>{{ item.label }}</span>
-      </template>
-
-      <el-menu-item v-for="subItem in item.child" :index="subItem.path">
-        {{ subItem.label }}
+    <template v-for="(item, index) in menu">
+      <el-menu-item index="/home" v-if="item.path === '/home'">
+        <el-icon><component :is="menuIcon[0]" /></el-icon>
+        <span>首页</span>
       </el-menu-item>
-    </el-sub-menu>
+      <el-sub-menu v-else @click="goToHome(item)" :index="item.path" :key="item.key">
+        <template #title>
+          <el-icon>
+            <component :is="menuIcon[index]" />
+          </el-icon>
+          <span>{{ item.label }}</span>
+        </template>
+
+        <el-menu-item v-for="subItem in item.child" :index="subItem.path">
+          {{ subItem.label }}
+        </el-menu-item>
+      </el-sub-menu>
+    </template>
   </el-menu>
 </template>
 
@@ -32,7 +33,7 @@
 import { ElMessage } from "element-plus";
 import { onMounted, ref } from "vue";
 
-import { useUserStore } from '@/stores/user'
+import { useUserStore } from "@/stores/user";
 import { useRouter, useRoute } from "vue-router";
 
 import { menuIcon } from "./config";
@@ -40,9 +41,9 @@ import { getMenuList } from "@/service/common.js";
 
 const router = useRouter();
 const route = useRoute();
-const userStore = useUserStore()
+const userStore = useUserStore();
 
-const type = userStore.getCurrentUserType
+const type = userStore.getCurrentUserType;
 
 let menu = ref([]);
 onMounted(async () => {
