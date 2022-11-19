@@ -13,7 +13,7 @@
         <el-icon><component :is="menuIcon[0]" /></el-icon>
         <span>首页</span>
       </el-menu-item>
-      <el-sub-menu v-else @click="goToHome(item)" :index="item.path" :key="item.key">
+      <el-sub-menu v-else :index="item.path" :key="item.key">
         <template #title>
           <el-icon>
             <component :is="menuIcon[index]" />
@@ -55,11 +55,6 @@ onMounted(async () => {
   ElMessage.error(msg);
 });
 
-const goToHome = (item) => {
-  if (item.path === "/home") {
-    router.push("/home");
-  }
-};
 </script>
 
 <style>
