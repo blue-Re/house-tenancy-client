@@ -38,10 +38,9 @@ watch(
   padding: 10px 0;
   margin: 10px 0;
   border: 2px solid #f5f5f5;
-  background-color: #f5f5f5;
   border-radius: 30px;
   border-left-width: 10px;
-  border-left-color: #545c64;
+  border-left-color: #c2d2e2;
 
   .el-breadcrumb__item{
 
