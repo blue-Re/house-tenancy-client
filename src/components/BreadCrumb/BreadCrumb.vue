@@ -16,7 +16,10 @@ watch(
     const firstBreadObj = menuConfig.find((item) => item.key === firstPath);
 
     const secondBreadObj = { key: secondPath, name: route.meta.name };
-    breadArr.value = [firstBreadObj, secondBreadObj];
+    breadArr.value = [firstBreadObj];
+    if (secondBreadObj.key) {
+      breadArr.value.push(secondBreadObj)
+    }
   },
   { immediate: true }
 );
