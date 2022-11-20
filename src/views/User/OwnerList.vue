@@ -32,9 +32,14 @@
         </template>
       </el-table-column>
       <el-table-column fixed="right" label="操作">
-        <template #default>
-          <el-button link type="primary" size="small">查 询</el-button>
-          <el-button link type="primary" size="small">重 置</el-button>
+        <template #default="scope">
+          <el-button
+            :disabled="userStore.getCurrentUserType !== typeEnum.manager"
+            type="primary"
+            size="small"
+            @click="$_deleteUser(scope.row.id)"
+            >删 除</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -58,9 +63,13 @@ import { ElMessage } from "element-plus";
 
 import { onMounted, reactive, ref, toRefs } from "vue";
 
-import { getUserList } from "@/service/user";
-import { formatFullDate } from '@/utils/format-date'
+import { getUserList, deleteUser } from "@/service/user";
+import { useUserStore } from '@/stores/user' 
+
+import { formatFullDate } from "@/utils/format-date";
 import { typeEnum } from "@/config/enum";
+
+const userStore = useUserStore()
 
 const ruleFormRef = ref();
 const formInline = reactive({
@@ -102,6 +111,16 @@ const handleSizeChange = (size) => {
 };
 const handleCurrentChange = (page) => {
   paginationConfig.page = page;
+  $_getUserList(paginationConfig);
+};
+
+const $_deleteUser = async (id) => {
+  const { code, msg } = await deleteUser({ id });
+  if (code !== 0) {
+    ElMessage.error(msg);
+    return;
+  }
+  ElMessage.success(msg);
   $_getUserList(paginationConfig);
 };
 
