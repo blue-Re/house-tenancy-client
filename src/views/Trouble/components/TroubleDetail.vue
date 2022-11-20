@@ -82,7 +82,7 @@ const detailForm = reactive({
   houseId: "",
   troubleTitle: "",
   troubleContent: "",
-  houseTitle: ''
+  houseTitle: "",
 });
 const detailRules = reactive({
   houseId: [{ required: true, message: "请选择房源", trigger: "change" }],
@@ -175,10 +175,13 @@ const $_remoteHouseMethod = async (keyword) => {
   houseList.value = house;
 };
 
-watch(() => detailForm.houseId, (newValue) => {
-  if (newValue.houseId) {
-    const currentHouseInfo = houseList.value.find((item) => item.id === newValue.houseId);
-    detailForm.houseTitle = currentHouseInfo.title;
+watch(
+  () => detailForm.houseId,
+  (newValue) => {
+    if (newValue && houseList.value.length) {
+      const currentHouseInfo = houseList.value.find((item) => item.id === newValue);
+      detailForm.houseTitle = currentHouseInfo.title;
+    }
   }
-}, { immediate: true});
+);
 </script>
