@@ -62,7 +62,15 @@ const router = createRouter({
           meta: {
             name: '房屋列表'
           },
-          component: () => import('@/views/House/House.vue')
+          component: () => import('@/views/House/components/HouseList.vue')
+        },
+        {
+          path: '/house-management/house-detail',
+          name: 'HouseDetail',
+          meta: {
+            name: '房屋详情'
+          },
+          component: () => import('@/views/House/components/HouseDetail.vue')
         },
       ]
     },
