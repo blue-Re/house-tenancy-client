@@ -35,7 +35,7 @@
 </template>
 
 <script setup>
-import { reactive, ref } from "vue";
+import { onMounted, reactive, ref } from "vue";
 import { ElMessage } from "element-plus";
 import { useRouter } from "vue-router";
 
@@ -94,6 +94,12 @@ const registerForm = async (formEl) => {
     }
   });
 };
+
+onMounted(() => {
+  if (userStore.user.token) {
+    router.replace('/home')
+  }
+})
 </script>
 
 <style lang="less" scoped>
