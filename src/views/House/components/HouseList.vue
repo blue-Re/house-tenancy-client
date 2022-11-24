@@ -3,11 +3,13 @@ import { ElMessage } from "element-plus";
 
 import { useRouter } from "vue-router";
 import { onMounted, reactive, ref, toRefs } from "vue";
+import { useUserStore } from '@/stores/user';
 
 import { getHouseList, deleteHouse } from "@/service/house";
 import { formatFullDate } from "@/utils/format-date";
 
 const router = useRouter();
+const userStore = useUserStore()
 
 const ruleFormRef = ref();
 const formInline = reactive({
@@ -46,7 +48,11 @@ const $_getHouseList = async () => {
   paginationConfig.total = total;
 };
 
-const $_handleDelete = async(id) => {
+const $_handleDelete = async (id) => {
+  if (userStore.getCurrentUserType !== 3) {
+    ElMessage.info("用户没有权限，禁止操作！");
+    return
+  }
   const { code, msg } = await deleteHouse({ id });
   if (code !== 0) {
     ElMessage.error(msg);
@@ -54,7 +60,7 @@ const $_handleDelete = async(id) => {
   }
   ElMessage.success(msg);
   $_getHouseList(paginationConfig);
-}
+};
 
 const handleSizeChange = (size) => {
   paginationConfig.size = size;
@@ -67,6 +73,10 @@ const handleCurrentChange = (page) => {
 };
 
 const goToPath = (path, mode, id) => {
+  if (userStore.getCurrentUserType !== 3) {
+    ElMessage.info("用户没有权限，禁止操作！");
+    return
+  }
   const query = { mode, id };
   router.push({
     path,
@@ -103,7 +113,8 @@ onMounted(() => {
       <el-button
         type="primary"
         @click="goToPath('/house-management/house-detail', 'create')"
-        >新 建 房 屋</el-button>
+        >新 建 房 屋</el-button
+      >
     </el-form-item>
 
     <el-table :data="tableData" style="width: 100%" border>
@@ -136,10 +147,15 @@ onMounted(() => {
       </el-table-column>
       <el-table-column fixed="right" label="操作" width="200">
         <template #default="scope">
-          <el-button type="primary" size="small" @click="goToPath('/house-management/house-detail', 'update', scope.row.id)"
+          <el-button
+            type="primary"
+            size="small"
+            @click="goToPath('/house-management/house-detail', 'update', scope.row.id)"
             >更新房源</el-button
           >
-          <el-button type="primary" size="small" @click="$_handleDelete(scope.row.id)">下架房源</el-button>
+          <el-button type="primary" size="small" @click="$_handleDelete(scope.row.id)"
+            >下架房源</el-button
+          >
         </template>
       </el-table-column>
     </el-table>

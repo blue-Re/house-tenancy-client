@@ -111,12 +111,14 @@ import { ElMessage } from "element-plus";
 
 import { onMounted, reactive, ref, toRefs } from "vue";
 import { useRouter } from "vue-router";
+import { useUserStore } from '@/stores/user';
 
 import { getOrderList, updateOrder } from "@/service/order";
 import { formatFullDate } from "@/utils/format-date";
 import { orderStatus } from "@/config/enum";
 
 const router = useRouter();
+const userStore = useUserStore()
 
 const ruleFormRef = ref();
 const formInline = reactive({
@@ -169,6 +171,10 @@ onMounted(() => {
 });
 
 const goToPath = (path, mode, id) => {
+  if (userStore.getCurrentUserType !== 3) {
+    ElMessage.info("用户没有权限，禁止操作！");
+    return
+  }
   const query = { mode, id };
   router.push({
     path,
@@ -177,6 +183,10 @@ const goToPath = (path, mode, id) => {
 };
 
 const $_handleFix = async ({ id, orderStatus }) => {
+  if (userStore.getCurrentUserType !== 3) {
+    ElMessage.info("用户没有权限，禁止操作！");
+    return
+  }
   const { code, msg } = await updateOrder({ id, orderStatus });
   if (code !== 0) {
     ElMessage.error(msg);
