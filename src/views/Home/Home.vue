@@ -102,7 +102,7 @@ onUnmounted(() => {
           >https://github.com/blue-Re/house-tenancy-server</a
         >
       </p>
-      <p>blue-Re版权所有©2022-2023山西农行大学信息学院运营：学院路8号</p>
+      <p>blue-Re版权所有©2022-2023山西农业大学信息学院运营：学院路8号</p>
     </div>
   </div>
 </template>
